@@ -8,17 +8,12 @@ export default function Home() {
 	const searchParams = useSearchParams();
 	const router = useRouter();
 
-	//agregar estado
 	const [planets, setPlanets] = useState([]);
-	//estado para buscar planeta
-	const [searchPlanet, setSearchPlanet] = useState(searchParams.get("search") || "");
-	//estado para paginar y máximo de elementos a listar
+	const [sortOrder, setSortOrder] = useState(searchParams.get("sort") || "asc");
 	const [currentPage, setCurrentPage] = useState(1);
 	const itemsPerPage = 5;
-	//estado para ordenar
-	const [sortOrder, setSortOrder] = useState(searchParams.get("sort") || "asc");
+	const [searchPlanet, setSearchPlanet] = useState(searchParams.get("search") || "");
 
-	//actualizar parametros en la URL
 	const updateURL = (search, sort) => {
 		const params = new URLSearchParams();
 		if (search) params.set("search", search);
@@ -27,7 +22,11 @@ export default function Home() {
 		router.push(`/?${params.toString()}`, { scroll: false });
 	};
 
-	//función de busqueda
+	const handleSortChange = (event) => {
+		const value = event.target.value;
+		setSortOrder(value);
+		updateURL(value, sortOrder);
+	};
 	const handleSearchChange = (event) => {
 		const value = event.target.value;
 		setSearchPlanet(value);
@@ -35,21 +34,12 @@ export default function Home() {
 		updateURL(value, sortOrder);
 	};
 
-	//función de ordenamiento
-	const handleSortChange = (event) => {
-		const value = event.target.value;
-		setSortOrder(value);
-		updateURL(value, sortOrder);
-	};
-
-	//agregar efecto (incluir manejo de errores)
 	useEffect(() => {
 		const fetchPlanets = async () => {
 			try {
-				//se hizo configuración de CORS
-				const res = await fetch("/api/planets");
+				const res = await fetch("https://api.le-systeme-solaire.net/rest/bodies/?filter[]=isPlanet,eq,true");
 				const data = await res.json();
-				setPlanets(data || []);
+				setPlanets(data.bodies || []);
 			} catch (error) {
 				console.error("Error al obtener planetas", error);
 			}
@@ -57,26 +47,20 @@ export default function Home() {
 		fetchPlanets();
 	}, []);
 
-	//filtrar planetas
-	const filteredPlanets = planets.filter((planet) => planet.name.toLowerCase().includes(searchPlanet.toLocaleLowerCase()));
+	const filteredPlanets = planets.filter((planet) => planet.englishName.toLowerCase().includes(searchPlanet.toLocaleLowerCase()));
 
-	//ordenar planetas
 	const sortedPlanets = filteredPlanets.sort((a, b) => {
 		if (sortOrder === "asc") {
-			return a.name.localeCompare(b.name);
+			return a.englishName.localeCompare(b.englishName);
 		} else {
-			return b.name.localeCompare(a.name);
+			return b.englishName.localeCompare(a.englishName);
 		}
 	});
 
-	//calcular total de páginas
 	const totalPage = Math.ceil(sortedPlanets.length / itemsPerPage);
-
-	//calcular planetas a mostrar en la página actual
 	const startIndex = (currentPage - 1) * itemsPerPage;
 	const currentPlanets = sortedPlanets.slice(startIndex, startIndex + itemsPerPage);
 
-	//funciones para paginar
 	const nextPage = () => {
 		if (currentPage < totalPage) setCurrentPage(currentPage + 1);
 	};
@@ -84,7 +68,6 @@ export default function Home() {
 		if (currentPage > 1) setCurrentPage(currentPage - 1);
 	};
 
-	//actualizamos para agregar select de ordenamiento
 	return (
 		<div className="p-6">
 			<h1 className="text-3xl font-bold text-center mb-6">Planetas del sistema solar</h1>
@@ -93,11 +76,14 @@ export default function Home() {
 				<option value="asc">Orden Ascendente (A-Z)</option>
 				<option value="desc">Orden Descendente (Z-A)</option>
 			</select>
-			<ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+			<ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 ">
 				{currentPlanets.length > 0 ? (
 					currentPlanets.map((e) => (
-						<li key={e._id} onClick={() => router.push(`/planeta/${e.slug}`)} className="p-4 bg-gray-100 rounded-lg shadow-md text-center">
-							<p className="text-lg font-semibold">{e.name}</p>
+						<li
+							key={e.id}
+							onClick={() => router.push(`/planeta/${e.englishName}`)}
+							className="p-4 bg-gray-100 rounded-lg shadow-md text-center border-4 hover:border-sky-500 cursor-pointer">
+							<p className="text-lg font-semibold">{e.englishName}</p>
 						</li>
 					))
 				) : (

@@ -4,7 +4,7 @@ const nextConfig = {
 		return [
 			{
 				source: "/api/planets",
-				destination: "https://plan3ts.onrender.com/all",
+				destination: "https://api.le-systeme-solaire.net/rest/bodies/?filter[]=isPlanet,eq,true",
 			},
 		];
 	},

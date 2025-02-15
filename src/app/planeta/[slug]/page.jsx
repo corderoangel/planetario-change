@@ -4,19 +4,21 @@ import { useEffect, useState } from "react";
 
 export default function PlanetDetail() {
 	const { slug } = useParams();
+	console.log("Slug recibido:", slug);
 	const [planet, setPlanet] = useState(null);
 	const [loading, setLoading] = useState(true);
+
+	console.log(planet);
 
 	useEffect(() => {
 		if (!slug) return; // No hacer nada si slug aún no está definido
 
 		const fetchPlanet = async () => {
 			try {
-				const res = await fetch(`/api/planets`);
+				const res = await fetch(`https://api.le-systeme-solaire.net/rest/bodies/?filter[]=isPlanet,eq,true`);
 				const data = await res.json();
 
-				// Buscar el planeta por su `slug`
-				const selectedPlanet = data.find((p) => p.slug === slug);
+				const selectedPlanet = data.bodies.find((p) => p.englishName === slug);
 
 				if (selectedPlanet) {
 					setPlanet(selectedPlanet);
@@ -58,11 +60,11 @@ export default function PlanetDetail() {
 				<p>
 					<strong>Número de lunas:</strong> {planet.noOfMoons}
 				</p>
-				{planet.majorMoons.length > 0 && (
+				{/* {planet.majorMoons.length > 0 && (
 					<p>
 						<strong>Lunas principales:</strong> {planet.majorMoons.join(", ")}
 					</p>
-				)}
+				)} */}
 			</div>
 		</div>
 	);
