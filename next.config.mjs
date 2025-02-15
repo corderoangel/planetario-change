@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+	// en caso de problemas de CORS
 	async rewrites() {
 		return [
 			{

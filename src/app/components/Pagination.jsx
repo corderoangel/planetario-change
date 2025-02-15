@@ -1,8 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import usePlanetStore from "../store/planetStore";
-import { shallow } from "zustand/shallow";
 
 const Pagination = () => {
 	// Extraer valores del estado sin usar shallow
