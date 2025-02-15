@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import usePlanetStore from "./store/planetStore"; // Importamos el store
+import SearchBar from "./components/SearchBar";
 
 export default function Home() {
 	const { fetchPlanets, getFilteredPlanets, searchPlanet, setSearchPlanet, sortOrder, setSortOrder, currentPage, nextPage, prevPage, totalPage } = usePlanetStore();
@@ -38,13 +39,7 @@ export default function Home() {
 	return (
 		<div className="p-6">
 			<h1 className="text-3xl font-bold text-center mb-6">Planetas del sistema solar</h1>
-
-			<input type="text" placeholder="Buscar planeta" value={searchPlanet} onChange={handleSearchChange} className="w-full p-2 border rounded-md mb-4" />
-
-			<select value={sortOrder} onChange={handleSortChange} className="w-full p-2 border rounded-md mb-4">
-				<option value="asc">Orden Ascendente (A-Z)</option>
-				<option value="desc">Orden Descendente (Z-A)</option>
-			</select>
+			<SearchBar />
 
 			<ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 ">
 				{planets.length > 0 ? (

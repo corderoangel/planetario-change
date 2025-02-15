@@ -59,13 +59,9 @@ const usePlanetStore = create((set, get) => ({
 	// Obtener planetas filtrados y ordenados
 	getFilteredPlanets: () => {
 		const { planets, searchPlanet, sortOrder, currentPage, itemsPerPage } = get();
-
 		let filtered = planets.filter((planet) => planet.englishName.toLowerCase().includes(searchPlanet.toLowerCase()));
-
 		let sorted = filtered.sort((a, b) => (sortOrder === "asc" ? a.englishName.localeCompare(b.englishName) : b.englishName.localeCompare(a.englishName)));
-
 		const startIndex = (currentPage - 1) * itemsPerPage;
-		// get().updateTotalPage();
 		return sorted.slice(startIndex, startIndex + itemsPerPage);
 	},
 }));
