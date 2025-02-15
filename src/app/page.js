@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import usePlanetStore from "./store/planetStore"; // Importamos el store
 import SearchBar from "./components/SearchBar";
+import PlanetList from "./components/PlanetList";
 
 export default function Home() {
 	const { fetchPlanets, getFilteredPlanets, searchPlanet, setSearchPlanet, sortOrder, setSortOrder, currentPage, nextPage, prevPage, totalPage } = usePlanetStore();
@@ -40,22 +41,7 @@ export default function Home() {
 		<div className="p-6">
 			<h1 className="text-3xl font-bold text-center mb-6">Planetas del sistema solar</h1>
 			<SearchBar />
-
-			<ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 ">
-				{planets.length > 0 ? (
-					planets.map((e) => (
-						<li
-							key={e.englishName}
-							onClick={() => router.push(`/planeta/${e.englishName}`)}
-							className="p-4 bg-gray-100 rounded-lg shadow-md text-center border-4 hover:border-sky-500 cursor-pointer">
-							<p className="text-lg font-semibold">{e.englishName}</p>
-						</li>
-					))
-				) : (
-					<p className="col-span-full text-center text-gray-500">No se encontraron planetas</p>
-				)}
-			</ul>
-
+			<PlanetList />
 			<div className="flex justify-center items-center mt-4 space-x-4">
 				<button onClick={prevPage} disabled={currentPage === 1} className="px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-300">
 					Anterior
