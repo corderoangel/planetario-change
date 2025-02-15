@@ -86,22 +86,32 @@ export default function Home() {
 
 	//actualizamos para agregar select de ordenamiento
 	return (
-		<div>
-			<h1>Resultados</h1>
-			<input type="text" placeholder="Buscar planeta" value={searchPlanet} onChange={handleSearchChange} />
-			<select value={sortOrder} onChange={handleSortChange}>
+		<div className="p-6">
+			<h1 className="text-3xl font-bold text-center mb-6">Planetas del sistema solar</h1>
+			<input type="text" placeholder="Buscar planeta" value={searchPlanet} onChange={handleSearchChange} className="w-full p-2 border rounded-md mb-4" />
+			<select value={sortOrder} onChange={handleSortChange} className="w-full p-2 border rounded-md mb-4">
 				<option value="asc">Orden Ascendente (A-Z)</option>
 				<option value="desc">Orden Descendente (Z-A)</option>
 			</select>
-			<ul>{currentPlanets.length > 0 ? currentPlanets.map((e) => <li key={e._id}>{e.name}</li>) : <p>No se encontraron planetas</p>}</ul>
-			<div>
-				<button onClick={prevPage} disabled={currentPage === 1}>
+			<ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+				{currentPlanets.length > 0 ? (
+					currentPlanets.map((e) => (
+						<li key={e._id} onClick={() => router.push(`/planeta/${e.slug}`)} className="p-4 bg-gray-100 rounded-lg shadow-md text-center">
+							<p className="text-lg font-semibold">{e.name}</p>
+						</li>
+					))
+				) : (
+					<p className="col-span-full text-center text-gray-500">No se encontraron planetas</p>
+				)}
+			</ul>
+			<div className="flex justify-center items-center mt-4 space-x-4">
+				<button onClick={prevPage} disabled={currentPage === 1} className="px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-300">
 					Anterior
 				</button>
-				<span>
+				<span className="text-lg font-medium">
 					Página {currentPage} de {totalPage}
 				</span>
-				<button onClick={nextPage} disabled={currentPage === totalPage}>
+				<button onClick={nextPage} disabled={currentPage === totalPage} className="px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-300">
 					Siguiente
 				</button>
 			</div>
