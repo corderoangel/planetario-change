@@ -1,23 +1,29 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import usePlanetStore from "./store/planetStore"; // Importamos el store
 import SearchBar from "./components/SearchBar";
 import PlanetList from "./components/PlanetList";
 import Pagination from "./components/Pagination";
+import { useSearchParams } from "next/navigation";
 
 export default function Home() {
-	const { fetchPlanets, getFilteredPlanets } = usePlanetStore();
-	// const planets = getFilteredPlanets(); // Planetas filtrados
-	const router = useRouter();
-	// const searchParams = useSearchParams();
+	const { fetchPlanets } = usePlanetStore();
+	const setSearchPlanet = usePlanetStore((state) => state.setSearchPlanet);
+	const setSortOrder = usePlanetStore((state) => state.setSortOrder);
 
-	// Cargar planetas al montar el componente
+	const searchParams = useSearchParams();
+
+	// Cargar planetas y sincronizar Zustand con la URL al montar el componente
 	useEffect(() => {
 		fetchPlanets();
-	}, []);
 
+		const searchQuery = searchParams.get("search") || "";
+		const sortQuery = searchParams.get("sort") || "asc";
+
+		setSearchPlanet(searchQuery);
+		setSortOrder(sortQuery);
+	}, []);
 	return (
 		<div
 			className="min-h-screen bg-cover bg-center bg-fixed p-6"
