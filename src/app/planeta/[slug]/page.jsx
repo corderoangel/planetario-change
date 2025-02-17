@@ -8,7 +8,9 @@ export default function PlanetDetail() {
 	const [loading, setLoading] = useState(true);
 	const [isFavorite, setIsFavorite] = useState(false);
 
-	// Función para manejar la lógica de favoritos
+	/**
+	 * Maneja la lógica de agregar y eliminar un planeta de los favoritos
+	 */
 	const handleFavoriteToggle = () => {
 		// Obtener los favoritos del localStorage
 		const storedFavorites = JSON.parse(localStorage.getItem("favorites") || "[]");
@@ -28,6 +30,9 @@ export default function PlanetDetail() {
 		setIsFavorite(!isFavorite);
 	};
 
+	/**
+	 * Obtiene los detalles del planeta desde la API y verifica si está en favoritos
+	 */
 	useEffect(() => {
 		if (!slug) return; // No hacer nada si slug aún no está definido
 
