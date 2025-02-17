@@ -1,9 +1,10 @@
 "use client";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function PlanetDetail() {
 	const { slug } = useParams();
+	const router = useRouter();
 	const [planet, setPlanet] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [isFavorite, setIsFavorite] = useState(false);
@@ -94,6 +95,10 @@ export default function PlanetDetail() {
 				{/* Botón de favorito */}
 				<button onClick={handleFavoriteToggle} className={`mt-4 py-2 px-4 rounded-full text-white ${isFavorite ? "bg-red-500" : "bg-gray-500"}`}>
 					{isFavorite ? "Desmarcar como favorito" : "Marcar como favorito"}
+				</button>
+				{/* Botón para volver a la página principal */}
+				<button onClick={() => router.push("/")} className="mt-4 ml-4 py-2 px-4 bg-blue-500 text-white rounded-full hover:bg-blue-600">
+					Volver al inicio
 				</button>
 			</div>
 		</div>
