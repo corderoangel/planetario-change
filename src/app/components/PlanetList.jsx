@@ -4,8 +4,19 @@ import { useRouter } from "next/navigation";
 import usePlanetStore from "../store/planetStore";
 import { shallow } from "zustand/shallow";
 
+/**
+ * Componente PlanetList
+ *
+ * Este componente muestra una lista de planetas obtenidos desde el estado global de Zustand.
+ * Permite navegar a la página de detalles de un planeta al hacer clic en él.
+ *
+ * @returns {JSX.Element} Lista de planetas renderizados.
+ */
 const PlanetList = () => {
 	const router = useRouter();
+
+	// Obtener la lista de planetas filtrados desde el store de Zustand
+	// Se usa `shallow` para evitar renders innecesarios cuando el estado cambia
 	const planets = usePlanetStore((state) => state.getFilteredPlanets, shallow)();
 
 	return (

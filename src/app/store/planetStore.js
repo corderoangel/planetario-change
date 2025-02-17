@@ -1,5 +1,10 @@
 import { create } from "zustand";
 
+/**
+ * Zustand store para la gestión del estado de los planetas.
+ * Incluye funcionalidades para la búsqueda, ordenamiento, paginación
+ * y obtención de datos desde una API pública.
+ */
 const usePlanetStore = create((set, get) => ({
 	planets: [],
 	searchPlanet: "",
@@ -8,7 +13,10 @@ const usePlanetStore = create((set, get) => ({
 	itemsPerPage: 5,
 	totalPage: 1, // Nuevo estado total de páginas
 
-	// Fetch de la API
+	/**
+	 * Obtiene los planetas desde la API pública.
+	 * Almacena los datos en el estado y actualiza el número total de páginas.
+	 */
 	fetchPlanets: async () => {
 		try {
 			const res = await fetch("https://api.le-systeme-solaire.net/rest/bodies/?filter[]=isPlanet,eq,true");
@@ -19,18 +27,27 @@ const usePlanetStore = create((set, get) => ({
 			console.error("Error al obtener planetas", error);
 		}
 	},
-	// Actualizar búsqueda
+
+	/**
+	 * Actualiza el término de búsqueda y reinicia la paginación.
+	 * @param {string} search - Término de búsqueda ingresado.
+	 */
 	setSearchPlanet: (search) => {
 		set({ searchPlanet: search, currentPage: 1 });
 		get().updateTotalPage();
 	},
 
-	// Cambiar orden
+	/**
+	 * Cambia el orden de los planetas.
+	 * @param {"asc" | "desc"} order - Orden de clasificación (ascendente o descendente).
+	 */
 	setSortOrder: (order) => {
 		set({ sortOrder: order });
 	},
 
-	//paginación
+	/**
+	 * Avanza a la siguiente página si no está en la última.
+	 */
 	nextPage: () => {
 		set((state) => {
 			if (state.currentPage < state.totalPage) {
@@ -39,6 +56,10 @@ const usePlanetStore = create((set, get) => ({
 			return {}; // No cambia el estado si no es necesario
 		});
 	},
+
+	/**
+	 * Retrocede a la página anterior si no está en la primera.
+	 */
 	prevPage: () => {
 		set((state) => {
 			if (state.currentPage > 1) {
@@ -48,7 +69,9 @@ const usePlanetStore = create((set, get) => ({
 		});
 	},
 
-	//actualizamos el total de las páginas
+	/**
+	 * Calcula y actualiza el número total de páginas basado en los filtros aplicados.
+	 */
 	updateTotalPage: () => {
 		set((state) => {
 			const filtered = state.planets.filter((planet) => planet.englishName.toLowerCase().includes(state.searchPlanet.toLowerCase()));
@@ -56,7 +79,10 @@ const usePlanetStore = create((set, get) => ({
 		});
 	},
 
-	// Obtener planetas filtrados y ordenados
+	/**
+	 * Filtra, ordena y pagina los planetas según los criterios actuales en el estado.
+	 * @returns {Array} Lista de planetas filtrados y ordenados.
+	 */
 	getFilteredPlanets: () => {
 		const { planets, searchPlanet, sortOrder, currentPage, itemsPerPage } = get();
 		let filtered = planets.filter((planet) => planet.englishName.toLowerCase().includes(searchPlanet.toLowerCase()));

@@ -2,12 +2,16 @@
 
 import usePlanetStore from "../store/planetStore";
 
+/**
+ * Componente de paginación para la lista de planetas.
+ * Permite navegar entre páginas de resultados utilizando el estado global de Zustand.
+ */
 const Pagination = () => {
-	// Extraer valores del estado sin usar shallow
+	// Obtiene el número de página actual y el total de páginas desde el estado global
 	const currentPage = usePlanetStore((state) => state.currentPage);
 	const totalPage = usePlanetStore((state) => state.totalPage);
 
-	// Extraer funciones de navegación (llamadas separadas para evitar errores en Next.js)
+	// Obtiene las funciones para avanzar y retroceder páginas
 	const nextPage = usePlanetStore((state) => state.nextPage);
 	const prevPage = usePlanetStore((state) => state.prevPage);
 
