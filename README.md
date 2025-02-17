@@ -33,9 +33,9 @@ Si quieres ejecutar el proyecto localmente en tu máquina, sigue estos pasos:
 
 1. Clona el repositorio:
 
-    ```bash
-    git clone https://github.com/tu-usuario/planetario.git
-    ```
+```bash
+git clone https://github.com/tu-usuario/planetario.git
+```
 
 2. Navega al directorio del proyecto:
 
