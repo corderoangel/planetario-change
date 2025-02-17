@@ -19,7 +19,7 @@ const Pagination = () => {
 				className={`px-4 py-2 rounded-lg ${currentPage === 1 ? "bg-gray-300 cursor-not-allowed" : "bg-blue-500 text-white hover:bg-blue-600"}`}>
 				Anterior
 			</button>
-			<span className="font-semibold">
+			<span className="font-semibold text-white">
 				Página {currentPage} de {totalPage}
 			</span>
 			<button

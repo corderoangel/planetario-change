@@ -19,8 +19,12 @@ export default function Home() {
 	}, []);
 
 	return (
-		<div className="p-6">
-			<h1 className="text-3xl font-bold text-center mb-6">Planetas del sistema solar</h1>
+		<div
+			className="min-h-screen bg-cover bg-center bg-fixed p-6"
+			style={{
+				backgroundImage: "url('/images/background.jpg')",
+			}}>
+			<h1 className="text-3xl font-bold text-center mb-6 text-white">Planetas del sistema solar</h1>
 			<SearchBar />
 			<PlanetList />
 			<Pagination />

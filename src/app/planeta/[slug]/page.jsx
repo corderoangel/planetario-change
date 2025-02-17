@@ -47,24 +47,22 @@ export default function PlanetDetail() {
 			<h1 className="text-3xl font-bold text-center mb-4">{planet.name}</h1>
 			{/* Contenido */}
 			<div className="relative z-10 bg-black bg-opacity-50 p-8 rounded-lg text-white max-w-lg mx-auto text-center">
-				<h1 className="text-4xl font-bold mb-4">{planet.name}</h1>
+				<h1 className="text-4xl font-bold mb-4">{planet.englishName}</h1>
 				<p>
-					<strong>Días en un año terrestre:</strong> {planet.earthDaysAYear}
+					<strong>Masa:</strong> {planet.mass ? `${planet.mass.massValue} × 10^${planet.mass.massExponent} kg` : "Desconocida"}
 				</p>
 				<p>
-					<strong>Horas en un día:</strong> {planet.hoursInDay}
+					<strong>Volumen:</strong> {planet.vol ? `${planet.vol.volValue} × 10^${planet.vol.volExponent} km³` : "Desconocido"}
 				</p>
 				<p>
-					<strong>Temperatura (°C):</strong> {planet.tempC}
+					<strong>Densidad media:</strong> {planet.density ? `${planet.density} g/cm³` : "Desconocida"}
 				</p>
 				<p>
-					<strong>Número de lunas:</strong> {planet.noOfMoons}
+					<strong>Gravedad en la superficie:</strong> {planet.gravity ? `${planet.gravity} m/s²` : "Desconocida"}
 				</p>
-				{/* {planet.majorMoons.length > 0 && (
-					<p>
-						<strong>Lunas principales:</strong> {planet.majorMoons.join(", ")}
-					</p>
-				)} */}
+				<p>
+					<strong>Temperatura media:</strong> {planet.avgTemp ? `${planet.avgTemp} K` : "Desconocida"}
+				</p>
 			</div>
 		</div>
 	);
